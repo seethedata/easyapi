@@ -6,12 +6,13 @@ import (
 	"html/template"
 	"log"
 	"encoding/json"
+	"io/ioutil"
 )
 
 
 type Result struct {
-	Name string
-	Value int
+	Name string `json:"name"`
+	Value int	`json:"value"`
 } 
 
 type Message struct {
@@ -50,10 +51,25 @@ func displayAbout (w http.ResponseWriter, r *http.Request) {
      w.Write(b)
 }
 
+func updateResults (w http.ResponseWriter, r *http.Request) {
+	body, err:= ioutil.ReadAll(r.Body)
+	if err != nil {
+        panic(err)
+    }
+	var t Result
+    err = json.Unmarshal(body, &t)
+    if err != nil {
+        panic(err)
+    }
+	m:=Message{"All went well"}
+	b,err:=json.Marshal(m)
+	w.Write(b)
+}
 
 func main() {
 	http.HandleFunc("/",showTemplate)
-	http.HandleFunc("/about",displayAbout)
+	http.HandleFunc("/update/", updateResults)
+	http.HandleFunc("/about/",displayAbout)
 	http.Handle("/images/",http.FileServer(http.Dir("")))
 	http.Handle("/css/",http.FileServer(http.Dir("")))
 	http.Handle("/fonts/",http.FileServer(http.Dir("")))

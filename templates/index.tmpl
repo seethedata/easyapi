@@ -23,8 +23,8 @@ function loadData(data) {
 
 	//Update existing data points (including newly created points)
 	d3.select("#graph").selectAll("div")
-		.style("width", function(d) { return  d.Value*10 + "px";} )
-		.text(function(d) { return d.Name + "(" + d.Value + ")"; });
+		.style("width", function(d) { return  d.value*10 + "px";} )
+		.text(function(d) { return d.name + "(" + d.value + ")"; });
 		
 	// Remove old data points		
 	graphview.exit().remove();
@@ -35,7 +35,7 @@ function initialize() {
 }
  
 function rigElection() {
-	loadData([{Name:"Choice 1",Value:10},{Name:"Choice 2",Value:12},{Name:"Interloper",Value:50}])
+	loadData([{name:"Choice 1",value:10},{name:"Choice 2",value:12},{name:"Interloper",value:50}])
 }
 </script>
 <style>
