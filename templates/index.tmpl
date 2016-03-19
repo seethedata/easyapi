@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EasyAPI</title>
+<link href="/css/bootstrap.min.css" rel="stylesheet"/>
+<script type='text/javascript' src='/js/jquery.min.js'></script>
+<script type='text/javascript' src='/js/bootstrap.min.js'></script>
+<script type='text/javascript' src='/js/d3.min.js'></script>
+<script>
+function loadData() {
+
+var graphview=d3.select("#graph").selectAll("div").data({{ . }});
+	graphview.exit().remove();
+var bar= graphview.enter()
+		.append("div")
+			.style("color","white")
+			.style("text-align","center")
+			.attr("class","col-xs-3")
+			.attr("height", function(d) { return  d.Value*10 + "px";} )
+			.attr("width","300px")
+			.style("background-color", "steelblue")
+			.text(function(d) { return d.Name; });
+} 
+ 
+function initialize() {
+ loadData();
+ }
+</script>
+<style>
+
+
+
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			  </button>
+			  <a class="navbar-brand" href="#">EasyAPI</a>
+			  
+			</div>
+			<img class="col-xs-3" src="/images/federation-bar.png"/>
+		  </div>
+    </nav>
+	<div id='message'><h1>Our results</h1></div>
+	<div id='graph' class="container-fluid row"></div>
+</body>
+<script>
+window.onload=initialize();
+</script>
+</html>
+

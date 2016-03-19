@@ -1,0 +1,6 @@
+---
+applications:
+- name: easyapi
+  memory: 512M
+disk_quota: 100MB
+buildpack: go_buildpack
