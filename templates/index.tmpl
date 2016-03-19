@@ -9,22 +9,24 @@
 <script>
 function loadData(data) {
 
-var graphview=d3.select("#graph").selectAll("div").data(data);
-var bar= graphview.enter()
-		.append("div")
-			.style("color","white")
-			.style("text-align","center")
-			.style("height","30px")
-			.style("margin-bottom","3px")
-			.style("padding-right", "3px")
-			.style("background-color", "steelblue")
-			.style("text-align","right");
+	var graphview=d3.select("#graph").selectAll("div").data(data);
+	// Create new data points
+	var bar= graphview.enter()
+			.append("div")
+				.style("color","white")
+				.style("text-align","center")
+				.style("height","30px")
+				.style("margin-bottom","3px")
+				.style("padding-right", "3px")
+				.style("background-color", "steelblue")
+				.style("text-align","right");
 
-
+	//Update existing data points (including newly created points)
 	d3.select("#graph").selectAll("div")
 		.style("width", function(d) { return  d.Value*10 + "px";} )
 		.text(function(d) { return d.Name + "(" + d.Value + ")"; });
 		
+	// Remove old data points		
 	graphview.exit().remove();
 } 
  
