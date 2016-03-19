@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"html/template"
 	"log"
+	"encoding/json"
 )
 
 
@@ -13,7 +14,9 @@ type Result struct {
 	Value int
 } 
 
-
+type Message struct {
+	Text string
+}
 
 func check(function string, e error) {
 	if e != nil {
@@ -22,7 +25,7 @@ func check(function string, e error) {
 }
 
 
-func responseHandler(w http.ResponseWriter, r *http.Request) {
+func showTemplate(w http.ResponseWriter, r *http.Request) {
 	var results=[]Result {
 				{Name:"Choice 1", Value:10},
 				{Name:"Choice 2", Value:30},
@@ -36,9 +39,21 @@ func responseHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func displayAbout (w http.ResponseWriter, r *http.Request) {
+	m := Message{"Welcome to the EasyAPI, build v0.0.001.001"}
+    b, err := json.Marshal(m)
+ 
+    if err != nil {
+        panic(err)
+    }
+ 
+     w.Write(b)
+}
+
 
 func main() {
-	http.HandleFunc("/",responseHandler)
+	http.HandleFunc("/",showTemplate)
+	http.HandleFunc("/about",displayAbout)
 	http.Handle("/images/",http.FileServer(http.Dir("")))
 	http.Handle("/css/",http.FileServer(http.Dir("")))
 	http.Handle("/fonts/",http.FileServer(http.Dir("")))

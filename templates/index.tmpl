@@ -7,24 +7,34 @@
 <script type='text/javascript' src='/js/bootstrap.min.js'></script>
 <script type='text/javascript' src='/js/d3.min.js'></script>
 <script>
-function loadData() {
+function loadData(data) {
 
-var graphview=d3.select("#graph").selectAll("div").data({{ . }});
-	graphview.exit().remove();
+var graphview=d3.select("#graph").selectAll("div").data(data);
 var bar= graphview.enter()
 		.append("div")
 			.style("color","white")
 			.style("text-align","center")
-			.attr("class","col-xs-3")
-			.attr("height", function(d) { return  d.Value*10 + "px";} )
-			.attr("width","300px")
+			.style("height","30px")
+			.style("margin-bottom","3px")
+			.style("padding-right", "3px")
 			.style("background-color", "steelblue")
-			.text(function(d) { return d.Name; });
+			.style("text-align","right");
+
+
+	d3.select("#graph").selectAll("div")
+		.style("width", function(d) { return  d.Value*10 + "px";} )
+		.text(function(d) { return d.Name + "(" + d.Value + ")"; });
+		
+	graphview.exit().remove();
 } 
  
 function initialize() {
- loadData();
- }
+ loadData({{ . }});
+}
+ 
+function rigElection() {
+	loadData([{Name:"Choice 1",Value:10},{Name:"Choice 2",Value:12},{Name:"Interloper",Value:50}])
+}
 </script>
 <style>
 
@@ -49,7 +59,9 @@ function initialize() {
 		  </div>
     </nav>
 	<div id='message'><h1>Our results</h1></div>
-	<div id='graph' class="container-fluid row"></div>
+	<div id='graph' class="container-fluid">
+	</div>
+	<button onClick='rigElection();'>Rig the election</button>
 </body>
 <script>
 window.onload=initialize();
